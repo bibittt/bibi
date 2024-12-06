@@ -1,0 +1,45 @@
+server:
+  port: 8983
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    nacos:
+      server-addr:  http://182.92.69.171:8848
+    gateway:
+      routes:  #用来配置路由规则
+        #admin router
+        - id: admins_router
+          uri: lb://API-ADMINS
+          predicates:
+            - Path= /admin/tokens,/admin/admin-user,/admin/tokens/**,/admin/login
+          filters:
+            - StripPrefix=1  # 1是去掉一级 2去掉2级
+      #category router
+        - id: category_router
+          uri: lb://API-CATEGORY
+          predicates:
+            - Path= /admin/category/**
+          filters:
+            - StripPrefix=1   # 1是去掉一级 2去掉2级
+      #user router
+        - id: users_router
+          uri: lb://API-USERS
+          predicates:
+            - Path= /admin/users/**
+          filters:
+            - StripPrefix=1   # 1是去掉一级 2去掉2级
+      #video router
+        - id: video_router
+          uri: lb://API-VIDEO
+          predicates:
+            - Path= /admin/video/**
+          filters:
+            - StripPrefix=1   # 1是去掉一级 2去掉2级
+
+      globalcors: # 跨域配置处理
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
