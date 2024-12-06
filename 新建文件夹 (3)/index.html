@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>媒体分享平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Cloudinary SDK -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>媒体分享平台</h1>
+        </header>
+        
+        <main>
+            <div class="upload-section">
+                <button @click="openUploadWidget">上传媒体文件</button>
+            </div>
+
+            <div class="gallery">
+                <div v-for="item in mediaItems" :key="item.id" class="media-item">
+                    <img v-if="item.resource_type === 'image'" :src="item.url" :alt="item.title">
+                    <video v-if="item.resource_type === 'video'" controls>
+                        <source :src="item.url" :type="item.format">
+                    </video>
+                    <p>{{ item.title }}</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html> 
